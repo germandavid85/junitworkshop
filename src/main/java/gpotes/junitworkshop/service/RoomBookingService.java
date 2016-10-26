@@ -34,17 +34,10 @@ class RoomBookingService implements IRoomBookingService {
 
     @Override
     public List<RoomDTO> getBestPriceRooms(final HotelDTO hotelDTO) {
-        List<RoomDTO> foundRooms;
+        Objects.requireNonNull(hotelDTO, "invalid hotelDTO");
 
-        if (hotelDTO.getRoomList().size() < 0) {
-            foundRooms = new ArrayList<>();
-        } else {
-            foundRooms = hotelDTO.getRoomList().stream()
-                .filter(discountsService::acceptsDiscounts)
-                .collect(Collectors.toList());
-        }
-        return foundRooms;
+        return hotelDTO.getRoomList().stream()
+            .filter(discountsService::acceptsDiscounts)
+            .collect(Collectors.toList());
     }
-
-
 }

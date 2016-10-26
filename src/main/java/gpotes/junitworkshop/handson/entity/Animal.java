@@ -20,7 +20,7 @@ public class Animal {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -28,7 +28,7 @@ public class Animal {
         return new ArrayList<>(breeds);
     }
 
-    public void setBreeds(List<Breed> breeds) {
+    public void setBreeds(final List<Breed> breeds) {
         this.breeds.clear();
         this.breeds.addAll(breeds);
     }

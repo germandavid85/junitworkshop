@@ -2,10 +2,10 @@ package gpotes.junitworkshop.service;
 
 import gpotes.junitworkshop.model.HotelDTO;
 import gpotes.junitworkshop.model.RoomDTO;
+import gpotes.junitworkshop.model.RoomType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
@@ -14,8 +14,6 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.anyObject;
-import static org.mockito.Mockito.when;
 
 /**
  * This test class contains:
@@ -24,8 +22,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CRoomBookingServiceTestWithConstructorDI {
-
-    @Mock private DiscountsService mockDiscountService;
+    private DiscountsService discountService = new DiscountsService();
 
     private RoomDTO thirdFloorRoom ;
     private RoomDTO presidentialSuite;
@@ -38,29 +35,21 @@ public class CRoomBookingServiceTestWithConstructorDI {
 
     @Before
     public void setup() {
-        serviceSUT = new RoomBookingService(mockDiscountService);
+        serviceSUT = new RoomBookingService(discountService);
 
         setupHotel();
     }
 
     @Test
     public void noDiscountRoomsThenIShouldNoHaveAnyResult() {
-        when(mockDiscountService.acceptsDiscounts(anyObject())).thenReturn(false);
+        hotelDTO.setRoomDTOList(Arrays.asList(presidentialSuite, firstFloorRoom));
 
-        assertThat(serviceSUT.getBestPriceRooms(hotelDTO).size(), is(0));
+        List<RoomDTO> bestPricesRooms = serviceSUT.getBestPriceRooms(hotelDTO);
+        assertThat(bestPricesRooms.size(), is(0));
     }
 
     @Test
     public void haveDiscountRoomsThenIShouldNoHaveResults() {
-        when(mockDiscountService.acceptsDiscounts(thirdFloorRoom)).thenReturn(true);
-        when(mockDiscountService.acceptsDiscounts(presidentialSuite)).thenReturn(false);
-        when(mockDiscountService.acceptsDiscounts(firstFloorRoom)).thenReturn(false);
-        when(mockDiscountService.acceptsDiscounts(secondFloorRoom)).thenReturn(true);
-
-        // you can also do this:
-        // when(mockDiscountService.acceptsDiscounts(secondFloorRoom)).thenCallRealMethod();
-        // to call the actual method, as another option of partial mocking
-
         List<RoomDTO> returnedRooms = serviceSUT.getBestPriceRooms(hotelDTO);
         assertThat(returnedRooms.size(), is(2));
         assertThat(returnedRooms, hasItem(thirdFloorRoom));
@@ -69,9 +58,11 @@ public class CRoomBookingServiceTestWithConstructorDI {
 
     private void setupHotel() {
         thirdFloorRoom = new RoomDTO();
+        thirdFloorRoom.setRoomType(RoomType.SINGLE_ROOM);
         presidentialSuite = new RoomDTO();
         firstFloorRoom = new RoomDTO();
         secondFloorRoom = new RoomDTO();
+        secondFloorRoom.setRoomType(RoomType.SINGLE_ROOM);
 
         hotelDTO = new HotelDTO();
         hotelDTO.setRoomDTOList(Arrays.asList(thirdFloorRoom, presidentialSuite, firstFloorRoom, secondFloorRoom));

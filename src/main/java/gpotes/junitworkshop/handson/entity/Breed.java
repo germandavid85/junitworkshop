@@ -8,7 +8,7 @@ public class Breed {
         return breedId;
     }
 
-    public void setBreedId(String breedId) {
+    public void setBreedId(final String breedId) {
         this.breedId = breedId;
     }
 
@@ -16,7 +16,7 @@ public class Breed {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 }

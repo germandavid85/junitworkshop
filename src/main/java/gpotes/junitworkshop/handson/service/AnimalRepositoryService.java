@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class AnimalRepositoryService implements IAnimalRepositoryService {
@@ -17,6 +18,7 @@ public class AnimalRepositoryService implements IAnimalRepositoryService {
      */
     @Autowired
     public AnimalRepositoryService(final AnimalRepository animalPersistence) {
+        Objects.requireNonNull(animalPersistence, "null animalPersistence");
         this.animalPersistence = animalPersistence;
     }
 
