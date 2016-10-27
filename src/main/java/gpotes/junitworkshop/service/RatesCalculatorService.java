@@ -29,4 +29,33 @@ class RatesCalculatorService implements IRatesCalculatorService {
         }
         return rate;
     }
+
+    @Override
+    public double calculateAdditionalDiscount(long currentRate) {
+        double additionalDiscount = 0D;
+
+        if (currentRate > 100 && currentRate < 600) {
+            additionalDiscount = currentRate * 0.05;
+        }
+
+        else if (currentRate >= 600 && currentRate < 1500) {
+            additionalDiscount = currentRate * 0.06;
+        }
+
+        else if (currentRate >= 1500 && currentRate < 3000) {
+            additionalDiscount = currentRate * 0.07;
+        }
+
+        else if (currentRate >= 3000 && currentRate <= 5000) {
+            additionalDiscount = currentRate * 0.08;
+        }
+
+        else if (currentRate >= 5000) {
+            additionalDiscount = currentRate * 0.1;
+        }
+
+        return additionalDiscount;
+    }
+
+
 }

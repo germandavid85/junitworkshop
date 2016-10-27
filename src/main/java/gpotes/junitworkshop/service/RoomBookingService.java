@@ -3,7 +3,6 @@ package gpotes.junitworkshop.service;
 import gpotes.junitworkshop.model.HotelDTO;
 import gpotes.junitworkshop.model.RoomDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -16,13 +15,13 @@ class RoomBookingService implements IRoomBookingService {
 
     @Autowired
     RoomBookingService(final DiscountsService discountsService) {
+        Objects.requireNonNull(discountsService, "null discountsService");
         this.discountsService = discountsService;
     }
 
     @Override
     public int getAvailableRoomsCount() {
-
-        return 0;
+        return 4;
     }
 
     @Override
