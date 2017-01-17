@@ -14,4 +14,6 @@ This is a repo containing different forms of using some of the most used feature
 # How to run the tests
 run gradle task ``gradlew test``
 
+Adding changes on branch
+
 adding changes to readme
